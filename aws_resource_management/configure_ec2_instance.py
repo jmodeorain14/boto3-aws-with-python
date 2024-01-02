@@ -5,11 +5,11 @@ def runRemoteShellCommands(InstanceId):
     # Create an SSM client
     ssm_client = boto3.client("ssm")
 
-    # Send the command to the EC2 instance
+    # Send the command(s) to the EC2 instance
     response = ssm_client.send_command(
         InstanceIds=[InstanceId],
         DocumentName="AWS-RunShellScript",
-        Parameters={"commands": ["hostname"]},
+        Parameters={"commands": ["cd /home/ubuntu/jtl-reporter", "sudo docker-compose up -d"]},
     )
 
     # Get command status and output
@@ -28,5 +28,5 @@ def runRemoteShellCommands(InstanceId):
     # Print the output of the executed command(s)
     print(output["StandardOutputContent"])
 
-
+# Pass the EC2 instance ID to the function
 runRemoteShellCommands("i-09f8e38adcf744509")
